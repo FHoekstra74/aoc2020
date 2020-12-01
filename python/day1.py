@@ -1,13 +1,11 @@
-answerA=0
-answerB=0
+answerA,answerB=0,0
 f = open("../input/day1.txt", "r")
-for x in f:
-  fuel=int(int(x)/3)-2  
-  answerA=answerA+fuel
-  val=fuel
-  while val>0:
-      answerB=answerB+val
-      val=int(val/3)-2
+lines=[int(line) for line in f]
 f.close()
+for x in lines:
+    for y in lines:
+        if x + y == 2020: answerA = x * y        
+        for z in lines:
+            if x + y + z == 2020: answerB = x * y * z
 print ("AnswerA: " , answerA)
 print ("AnswerB: " , answerB)
