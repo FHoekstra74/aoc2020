@@ -1,18 +1,15 @@
 def traverse(coor,xstep,ystep,maxx,maxy):
     val,xpos,ypos=0,0,0
-    while ypos<maxy:
+    while ypos<=maxy:
         if (xpos,ypos) in coor: val+=1
         ypos+=ystep
-        if xpos>(maxx-xstep): xpos=0-(maxx-xpos+1)
-        xpos+=xstep
+        xpos=xstep-(maxx-xpos+1) if xpos>(maxx-xstep) else xpos+xstep
     return val
-
-f,y,coor = open("../input/day3.txt", "r"),0,[]
-for l in f:
-    x=0
-    for c in l.strip():
+f,coor,answerb = open("../input/day3.txt", "r"),[],1
+for y,l in enumerate(f):
+    for x,c in enumerate(l.strip()): 
         if c == '#': coor.append((x,y))
-        x+=1
-    y+=1
-print(traverse(coor,3,1,x-1,y))
-print(traverse(coor,1,1,x-1,y) * traverse(coor,3,1,x-1,y) * traverse(coor,5,1,x-1,y) * traverse(coor,7,1,x-1,y) * traverse(coor,1,2,x-1,y))
+print(traverse(coor,3,1,x,y))
+for vector in [(1,1),(3,1),(5,1),(7,1),(1,2)]:
+    answerb*=traverse(coor,vector[0],vector[1],x,y)
+print(answerb)
