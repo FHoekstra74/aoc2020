@@ -1,4 +1,3 @@
-import copy
 def run(instructions,mode):
     accumulator,pointer,i=0,0,set()
     while pointer not in i:
@@ -12,20 +11,17 @@ def run(instructions,mode):
         if pointer==len(instructions): return accumulator
     if mode==1: return accumulator
     else: return 0
-
-f,changed,val,instructions = open("../input/day8.txt","r"),0,0,{}
+f,changed,val,instructions,oldp,oldval = open("../input/day8.txt","r"),0,0,{},0,''
 for cnt,line in enumerate(f):
     instructions[cnt]=[line.strip().split(' ')[0],int(line.strip().split(' ')[1])]
 print(f"a:{run(instructions,1)}")
 while val == 0:
-    instr,onechanged=copy.deepcopy(instructions),False
+    onechanged=False
     while onechanged == False:    
-        if instr[changed][0] == 'jmp' or instr[changed][0] == 'nop': 
-            if instr[changed][0] == 'jmp': 
-                instr[changed][0] = 'nop'
-            else:
-                instr[changed][0] = 'jmp'
-            onechanged=True
+        if instructions[changed][0] == 'jmp' or instructions[changed][0] == 'nop': 
+            oldp,oldval,onechanged=changed,instructions[changed][0],True
+            instructions[changed][0] = 'nop' if instructions[changed][0] == 'jmp' else 'jmp'
         changed+=1
-    val=run(instr,2)
+    val=run(instructions,2)
     if val > 0 : print(f"b:{val}")
+    else: instructions[oldp][0]=oldval
