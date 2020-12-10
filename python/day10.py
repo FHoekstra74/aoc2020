@@ -8,7 +8,7 @@ for cnt,adapter in enumerate(lines):
 print(f"a:{diffs[1] * (diffs[3])}")
 
 ways=dict.fromkeys(lines,0)
-ways[max(lines)+3]=1
+ways[max(lines)]=1
 lines.reverse()
 for adapter in lines:
   for i in range(1,4): 
