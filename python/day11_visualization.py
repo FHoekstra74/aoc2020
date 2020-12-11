@@ -5,7 +5,9 @@ def plot(map,screen):
         for y in range(max(map)[1]+1):
             if (x,y) in map:
                 try:
-                    screen.addch(x,y,map[(x,y)])
+                    if map[(x,y)] == '.': screen.addstr(x,y,'X',curses.color_pair(2))
+                    elif map[(x,y)] == '#': screen.addstr(x,y,map[(x,y)],curses.color_pair(3))
+                    else: screen.addstr(x,y,' ')
                 except(curses.error):
                     pass
     screen.refresh()
@@ -37,7 +39,9 @@ def calc(map,insight,occcount,screen):
                     elif map[(x,y)] == '#':
                         if countocc(map,x,y,insight) >= occcount: changes.append((x,y,'L'))
         for change in changes: map[change[0],change[1]]=change[2]
-        plot(map,screen)
+        n+=1
+        if n % 2 == 0:
+            plot(map,screen)
     return len([val for val in map.values() if val == '#'])
 
 f,map=open('../input/day11.txt','r'),{}
@@ -45,6 +49,9 @@ for y,l in enumerate(f):
     for x,c in enumerate(l.strip()):
         map[(x,y)]=c
 screen=curses.initscr()
-screen.refresh()
-calc(map,True, 5,screen)
+curses.start_color()
+curses.use_default_colors()
+for i in range(10): curses.init_pair(i+1,i,-1)
+calc(map.copy(), False, 4, screen)
+calc(map, True, 5, screen)
 curses.endwin()
