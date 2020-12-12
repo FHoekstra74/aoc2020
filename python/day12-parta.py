@@ -19,18 +19,6 @@ for l in f:
             elif d=='S': d='W' if i =='R' else 'E'
             elif d=='W': d='N' if i =='R' else 'S'
             elif d=='N': d='E' if i =='R' else 'W'
-  #  elif i == 'R':
-  #      for j in range(i2//90):
-  #          if d=='E': d='S'
-  #          elif d=='S': d='W'
-  #          elif d=='W': d='N'
-  #          elif d=='N' : d='E'
-  #  elif i == 'L':
-  #      for j in range(i2//90):
-  #          if d=='E': d='N'
-  #          elif d=='N': d='W'
-  #          elif d=='W': d='S'
-  #          elif d=='S' : d='E'
 for j in range(2):
     if ship[j]<0:ship[j]*=-1
 print(ship[0]+ship[1])
