@@ -1,27 +1,25 @@
 def calculate (expression,advanced):
     while '(' in expression:
-        buffer,parentheses,i,j = [],[],0,0
-        for i, c in enumerate(expression):
-            if c == "(": buffer.append(i)
+        start,end = 0,0
+        for pos, c in enumerate(expression):
+            if c == "(": start=pos
             elif c == ")":
-                start = buffer.pop()
-                parentheses.append((start, i))
-        for item in parentheses:
-            if item[1]-item[0] > j-i: i,j=item
-        part=expression[i+1:j]
+                end=pos
+                break
+        part=expression[start+1:end]
         result = str(calculate(part,advanced))
         expression=expression.replace('(' + part+ ')', result)
     result,op,buffer=0,'',[]
-    for i in [i for i in expression.split() if not i is ' ']:
-        if i is '+' or i is '*' : op=i
+    for i in [i for i in expression.split() if i != ' ']:
+        if i == '+' or i == '*' : op=i
         else:
             if len(op)>0:
                 if op == '+':result+=int(i)
                 elif op == '*':
-                    if advanced:
+                     if advanced:
                         buffer.append(result)
                         result=int(i)
-                    else: result*=int(i)
+                     else: result*=int(i)
                 op=''
             else: result=int(i)
     if advanced: 
