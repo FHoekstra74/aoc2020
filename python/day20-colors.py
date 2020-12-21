@@ -7,7 +7,7 @@ def printtile(tile,screen):
         for y in range(len(tile)):
             c=tile[x][y]
             try:
-                if c=='O': screen.addstr(x,y,c,curses.color_pair(2))
+                if c=='O': screen.addstr(x,y,chr(0x2588),curses.color_pair(2))
                 else: screen.addstr(x,y,c)
             except(curses.error):
                 pass
@@ -46,7 +46,7 @@ def topedge(tile):
 def bottomedge(tile):
     return(tile[-1])
 
-f=open('../input/day20jan.txt','r')
+f=open('../input/day20.txt','r')
 tileedges,tiles,tileid,alledges={},{},0,[]
 for line in f:
     line=line.strip()
