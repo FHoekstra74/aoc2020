@@ -5,7 +5,7 @@ def calcscore(cards):
 
 def playgame(cards,recursivecombat):
     state=[[],[]]
-    while len(cards[0]) > 0 and len(cards[1]) > 0:
+    while all([True if len(set)>0 else False for set in cards]):
         if cards[0] in state[0] and cards[1] in state[1]: cards[1].clear()
         else:
             for i in range(2): state[i].append(cards[i].copy())
@@ -14,12 +14,8 @@ def playgame(cards,recursivecombat):
                 sub1,sub2=playgame((cards[0].copy()[:card1],cards[1].copy()[:card2]),True)
                 playerwins=1 if len(sub1)>0 else 2
             else: playerwins=1 if card1>card2 else 2
-            if playerwins==1:
-                cards[0].append(card1)
-                cards[0].append(card2)
-            else:
-                cards[1].append(card2)
-                cards[1].append(card1)
+            cards[playerwins-1].append(card1 if playerwins==1 else card2)
+            cards[playerwins-1].append(card2 if playerwins==1 else card1)
     return cards
 lines,cards,currentplayer=[line.strip() for line in open("../input/day22.txt")],[[],[]],0
 for line in lines:
