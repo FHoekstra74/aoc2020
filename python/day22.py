@@ -10,11 +10,9 @@ def playgame(cards,recursivecombat):
         else:
             for i in range(2): state[i].append(cards[i].copy())
             card1,card2=cards[0].pop(0),cards[1].pop(0)
-            if recursivecombat:
-                if card1<=len(cards[0]) and card2<=len(cards[1]):
-                    sub1,sub2=playgame((cards[0].copy()[:card1],cards[1].copy()[:card2]),True)
-                    playerwins=1 if len(sub1)>0 else 2
-                else: playerwins=1 if card1>card2 else 2
+            if recursivecombat and card1<=len(cards[0]) and card2<=len(cards[1]):
+                sub1,sub2=playgame((cards[0].copy()[:card1],cards[1].copy()[:card2]),True)
+                playerwins=1 if len(sub1)>0 else 2
             else: playerwins=1 if card1>card2 else 2
             if playerwins==1:
                 cards[0].append(card1)
