@@ -12,22 +12,19 @@ def calcpos(line):
         i += len(instr)
     return pos
 
-lines, map = [line.strip() for line in open('../input/day24.txt', 'r')], set()
-for tile in [calcpos(line) for line in lines if len(line) > 0]:
+map, vectors, changes = set(), ((2, 0), (1, 1), (-1, 1), (-2, 0), (-1, -1), (1, -1)), []
+for tile in [calcpos(line.strip()) for line in open('../input/day24.txt', 'r') if len(line.strip()) > 0]:
     if tile in map: map.remove(tile)
     else: map.add(tile)
 print(f"a: {len(map)}")
-vectors, changes = ((2, 0), (1, 1), (-1, 1), (-2, 0), (-1, -1), (1, -1)), []
 for _ in range(100):
     for x in range(min([i[0] for i in map]) - 2, max([i[0] for i in map]) + 3):
         for y in range(min([i[1] for i in map]) - 1, max([i[1] for i in map]) + 2):
             cnt, black = 0, (x, y) in map
             for vector in vectors:
                 if (x + vector[0], y + vector[1]) in map: cnt += 1
-            newblack = black
-            if black and (cnt == 0 or cnt > 2): newblack = False
-            if not black and cnt == 2: newblack = True
-            if newblack != black: changes.append((x, y, newblack))
+            if black and (cnt == 0 or cnt > 2): changes.append((x, y, False))
+            if not black and cnt == 2: changes.append((x, y, True))
     for change in changes:
         if change[2]: map.add((change[0], change[1]))
         elif (change[0], change[1]) in map: map.remove((change[0], change[1]))
